@@ -4,7 +4,7 @@ from app.routers.category_router import router as category_router
 from app.routers.ingredient_router import router as ingredient_router
 from app.routers.product_router import router as product_router
 from app.routers.product_ingredient_router import router as product_ingredient_router
-
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
@@ -22,3 +22,11 @@ app.include_router(product_ingredient_router)
 async def root():
     return {"message": "Hola Mundo"}
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # o ["http://localhost:5173"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

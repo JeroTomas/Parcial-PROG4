@@ -16,7 +16,7 @@ class ProductBase(SQLModel):
 # CREATE
 # -----------------------------
 class ProductCreate(ProductBase):
-    pass
+    ingredients: List[int]  # ahora el create también recibe IDs
 
 
 # -----------------------------
@@ -30,19 +30,14 @@ class ProductSimple(SQLModel):
 
 
 # -----------------------------
-# READ (con ingredientes simples)
+# READ (devuelve IDs, NO objetos)
 # -----------------------------
-if TYPE_CHECKING:
-    from app.schemas.ingredient_schema import IngredientSimple
-
-
 class ProductRead(ProductBase):
     id: int
-    ingredients: List["IngredientSimple"] = []
+    ingredients: List[int] = []
 
 
 # -----------------------------
 # REBUILD
 # -----------------------------
-from app.schemas.ingredient_schema import IngredientSimple
 ProductRead.model_rebuild()
