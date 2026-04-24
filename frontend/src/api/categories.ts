@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Category, CategoryCreate } from "../types/Category";
+import type { Category, CategoryCreate } from "../types/Category.ts";
 
 const api = axios.create({
   baseURL: "http://localhost:8000",

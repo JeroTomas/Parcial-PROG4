@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Product, ProductCreate } from "../types/Product";
+import type { Product, ProductCreate } from "../types/Product.ts";
+
 
 const api = axios.create({
   baseURL: "http://localhost:8000",

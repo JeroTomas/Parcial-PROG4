@@ -1,61 +1,27 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import logo from "../../../assets/logo.png";
 
 export default function Header() {
   return (
-    <header className="w-full border-b bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        
-        {/* LOGO / NOMBRE */}
-        <Link to="/" className="text-2xl font-bold text-[#7f1d1d]">
-          Gestión de Menú
+    <header className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        {/* LOGO IZQUIERDA */}
+        <Link to="/" className="flex items-center gap-3">
+          <img
+            src={logo}
+            alt="Otero's Food"
+            className="h-12 w-auto object-contain"
+          />
         </Link>
 
-        {/* NAV */}
-        <nav className="flex items-center gap-6">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `font-medium transition ${
-                isActive ? "text-[#1d4ed8]" : "text-gray-700 hover:text-[#1d4ed8]"
-              }`
-            }
-          >
-            Inicio
-          </NavLink>
-
-          <NavLink
-            to="/products"
-            className={({ isActive }) =>
-              `font-medium transition ${
-                isActive ? "text-[#1d4ed8]" : "text-gray-700 hover:text-[#1d4ed8]"
-              }`
-            }
-          >
-            Productos
-          </NavLink>
-
-          <NavLink
-            to="/categories"
-            className={({ isActive }) =>
-              `font-medium transition ${
-                isActive ? "text-[#1d4ed8]" : "text-gray-700 hover:text-[#1d4ed8]"
-              }`
-            }
-          >
-            Categorías
-          </NavLink>
-
-          <NavLink
-            to="/ingredients"
-            className={({ isActive }) =>
-              `font-medium transition ${
-                isActive ? "text-[#1d4ed8]" : "text-gray-700 hover:text-[#1d4ed8]"
-              }`
-            }
-          >
-            Ingredientes
-          </NavLink>
+        {/* NAV DERECHA */}
+        <nav className="flex gap-6 text-[#7f1d1d] font-medium">
+          <Link to="/products" className="hover:text-[#1d4ed8] transition">Productos</Link>
+          <Link to="/categories" className="hover:text-[#1d4ed8] transition">Categorías</Link>
+          <Link to="/ingredients" className="hover:text-[#1d4ed8] transition">Ingredientes</Link>
         </nav>
+
       </div>
     </header>
   );

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Product, ProductCreate } from "../../types/Product";
-import { Category } from "../../types/Category";
-import { Ingredient } from "../../types/Ingredient";
+import type { Product, ProductCreate } from "../../types/Product.ts";
+import type { Category } from "../../types/Category.ts";
+import type { Ingredient } from "../../types/Ingredient.ts";
 
 interface Props {
   initialData?: Product;

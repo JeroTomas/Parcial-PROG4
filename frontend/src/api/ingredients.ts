@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Ingredient, IngredientCreate } from "../types/Ingredient";
+import type { Ingredient, IngredientCreate } from "../types/Ingredient.ts";
 
 const api = axios.create({
   baseURL: "http://localhost:8000",

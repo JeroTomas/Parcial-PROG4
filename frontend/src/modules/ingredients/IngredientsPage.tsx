@@ -8,7 +8,7 @@ import {
 } from "../../api/ingredients";
 import IngredientForm from "./IngredientForm";
 import Modal from "../../components/ui/Modal";
-import { Ingredient } from "../../types/Ingredient";
+import type { Ingredient } from "../../types/Ingredient.ts";
 
 export default function IngredientsPage() {
   const queryClient = useQueryClient();

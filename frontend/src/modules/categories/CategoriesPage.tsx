@@ -8,7 +8,7 @@ import {
 } from "../../api/categories";
 import CategoryForm from "./CategoryForm";
 import Modal from "../../components/ui/Modal";
-import { Category } from "../../types/Category";
+import type { Category } from "../../types/Category.ts";
 
 export default function CategoriesPage() {
   const queryClient = useQueryClient();

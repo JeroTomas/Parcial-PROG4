@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Category, CategoryCreate } from "../../types/Category";
+import type { Category, CategoryCreate } from "../../types/Category.ts";
 
 interface Props {
   initialData?: Category;

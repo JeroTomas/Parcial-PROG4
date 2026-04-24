@@ -10,7 +10,7 @@ import { getCategories } from "../../api/categories";
 import { getIngredients } from "../../api/ingredients";
 import ProductForm from "./ProductForm";
 import Modal from "../../components/ui/Modal";
-import { Product } from "../../types/Product";
+import type { Product } from "../../types/Product.ts";
 
 export default function ProductsPage() {
   const queryClient = useQueryClient();
