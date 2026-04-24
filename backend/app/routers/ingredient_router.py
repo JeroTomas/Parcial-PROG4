@@ -1,20 +1,51 @@
-from fastapi import APIRouter, Depends
-from sqlmodel import Session, select
+from fastapi import APIRouter, Depends, HTTPException
+from sqlmodel import Session
 from app.database import get_session
-from app.models.ingredient import Ingredient
 from app.schemas.ingredient_schema import IngredientCreate, IngredientRead
+from app.services.ingredient_service import IngredientService
 
 router = APIRouter(prefix="/ingredients", tags=["Ingredients"])
 
-@router.post("/", response_model=IngredientRead)
-def create_ingredient(ingredient: IngredientCreate, session: Session = Depends(get_session)):
-    db_ingredient = Ingredient.model_validate(ingredient)
-    session.add(db_ingredient)
-    session.commit()
-    session.refresh(db_ingredient)
-    return db_ingredient
 
+# -----------------------------
+# CREATE
+# -----------------------------
+@router.post("/", response_model=IngredientRead)
+def create_ingredient(
+    ingredient: IngredientCreate,
+    session: Session = Depends(get_session)
+):
+    return IngredientService.create_ingredient(ingredient, session)
+
+
+# -----------------------------
+# LIST
+# -----------------------------
 @router.get("/", response_model=list[IngredientRead])
 def list_ingredients(session: Session = Depends(get_session)):
-    ingredients = session.exec(select(Ingredient)).all()
-    return ingredients
+    return IngredientService.list_ingredients(session)
+
+
+# -----------------------------
+# UPDATE
+# -----------------------------
+@router.put("/{ingredient_id}", response_model=IngredientRead)
+def update_ingredient(
+    ingredient_id: int,
+    ingredient_update: IngredientCreate,
+    session: Session = Depends(get_session)
+):
+    return IngredientService.update_ingredient(
+        ingredient_id,
+        ingredient_update,
+        session
+    )
+
+
+# -----------------------------
+# DELETE
+# -----------------------------
+@router.delete("/{ingredient_id}")
+def delete_ingredient(ingredient_id: int, session: Session = Depends(get_session)):
+    IngredientService.delete_ingredient(ingredient_id, session)
+    return {"message": "Ingredient deleted successfully"}
