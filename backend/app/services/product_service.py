@@ -21,7 +21,9 @@ class ProductService:
             product = Product(
                 name=data.name,
                 price=data.price,
-                category_id=data.category_id
+                category_id=data.category_id,
+                image_url=data.image_url,
+                description=data.description
             )
             session.add(product)
             session.flush()  # obtener ID antes de agregar ingredientes
@@ -42,6 +44,8 @@ class ProductService:
                 name=product.name,
                 price=product.price,
                 category_id=product.category_id,
+                image_url=product.image_url,
+                description=product.description,
                 ingredients=[i.id for i in product.ingredients]
             )
 
@@ -72,6 +76,8 @@ class ProductService:
                 name=p.name,
                 price=p.price,
                 category_id=p.category_id,
+                image_url=p.image_url,
+                description=p.description,
                 ingredients=[i.id for i in p.ingredients]
             )
             for p in products
@@ -88,6 +94,8 @@ class ProductService:
             name=product.name,
             price=product.price,
             category_id=product.category_id,
+            image_url=product.image_url,
+            description=product.description,
             ingredients=[i.id for i in product.ingredients]
         )
 
@@ -106,6 +114,8 @@ class ProductService:
             product.name = data.name
             product.price = data.price
             product.category_id = data.category_id
+            product.image_url = data.image_url
+            product.description = data.description
 
             # Actualizar ingredientes
             product.ingredients = []
@@ -124,6 +134,8 @@ class ProductService:
                 name=product.name,
                 price=product.price,
                 category_id=product.category_id,
+                image_url=product.image_url,
+                description=product.description,
                 ingredients=[i.id for i in product.ingredients]
             )
 
@@ -134,5 +146,6 @@ class ProductService:
             if not product:
                 raise HTTPException(status_code=404, detail="Product not found")
 
+            product.ingredients = []  # Clear link table relationships
             session.delete(product)
             uow.commit()

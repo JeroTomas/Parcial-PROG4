@@ -43,6 +43,7 @@ class IngredientService:
                 raise HTTPException(status_code=404, detail="Ingredient not found")
 
             ingredient.name = data.name
+            ingredient.description = data.description
 
             session.add(ingredient)
             uow.commit()
@@ -54,10 +55,15 @@ class IngredientService:
     # -----------------------------
     @staticmethod
     def delete_ingredient(ingredient_id: int, session: Session) -> None:
+        from sqlalchemy import delete
+        from app.models.product_ingredient import ProductIngredient
         with UnitOfWork(session) as uow:
             ingredient = session.get(Ingredient, ingredient_id)
             if not ingredient:
                 raise HTTPException(status_code=404, detail="Ingredient not found")
+
+            # Remove link table associations
+            session.exec(delete(ProductIngredient).where(ProductIngredient.ingredient_id == ingredient_id))
 
             session.delete(ingredient)
             uow.commit()

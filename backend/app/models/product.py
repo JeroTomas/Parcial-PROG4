@@ -6,6 +6,8 @@ class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     price: float
+    image_url: Optional[str] = None
+    description: Optional[str] = None
     category_id: Optional[int] = Field(default=None, foreign_key="category.id")
 
     ingredients: List["Ingredient"] = Relationship(

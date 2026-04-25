@@ -6,8 +6,11 @@ from sqlmodel import SQLModel
 # -----------------------------
 # BASE
 # -----------------------------
+from typing import Optional
+
 class IngredientBase(SQLModel):
     name: Annotated[str, Query(min_length=2, max_length=50)]
+    description: Optional[str] = None
 
 
 # -----------------------------

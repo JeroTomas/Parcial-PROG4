@@ -10,6 +10,8 @@ class ProductBase(SQLModel):
     name: Annotated[str, Query(min_length=2, max_length=50)]
     price: Annotated[float, Query(gt=0)]
     category_id: int
+    image_url: str | None = None
+    description: str | None = None
 
 
 # -----------------------------
