@@ -40,8 +40,8 @@
 
 - [✅] Flujo de **Crear → Editar → Eliminar** mostrado en al menos un módulo.
 - [✅] Se muestra que los datos relacionados aparecen en la UI (ej. categoría e ingredientes en la tarjeta del producto).
-- [X] Se intenta cargar un dato inválido para demostrar que la validación funciona.
-- [X] La consola del navegador o la terminal del backend está visible para validar las peticiones.
+- [✅] Se intenta cargar un dato inválido para demostrar que la validación funciona.
+- [✅] La consola del navegador o la terminal del backend está visible para validar las peticiones.
 
 ---
 

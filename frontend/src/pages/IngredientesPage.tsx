@@ -74,7 +74,6 @@ export default function IngredientesPage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      {/* Header Section */}
       <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <h3 className="text-[#1d4ed8] font-bold tracking-widest text-sm uppercase mb-2">
@@ -93,7 +92,6 @@ export default function IngredientesPage() {
         </button>
       </div>
 
-      {/* Formulario Interactivo */}
       {showForm && (
         <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm mb-8 animate-fade-in">
           <h2 className="text-2xl font-bold mb-6 text-gray-900">{editingId ? "Editar Ingrediente" : "Crear Nuevo Ingrediente"}</h2>
@@ -131,7 +129,6 @@ export default function IngredientesPage() {
         </div>
       )}
 
-      {/* Grid of Ingredients from Backend */}
       {!showForm && (
         <>
           {loading ? (

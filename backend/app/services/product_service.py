@@ -12,12 +12,10 @@ class ProductService:
     @staticmethod
     def create_product(data: ProductCreate, session: Session) -> ProductRead:
         with UnitOfWork(session) as uow:
-            # Validar categoría
             category = session.get(Category, data.category_id)
             if not category:
                 raise HTTPException(status_code=404, detail="Category not found")
 
-            # Crear producto base
             product = Product(
                 name=data.name,
                 price=data.price,
@@ -26,9 +24,8 @@ class ProductService:
                 description=data.description
             )
             session.add(product)
-            session.flush()  # obtener ID antes de agregar ingredientes
+            session.flush()
 
-            # Agregar ingredientes
             product.ingredients = []
             for ing_id in data.ingredients:
                 ing = session.get(Ingredient, ing_id)
@@ -36,7 +33,7 @@ class ProductService:
                     raise HTTPException(status_code=404, detail=f"Ingredient {ing_id} not found")
                 product.ingredients.append(ing)
 
-            uow.commit()
+            session.flush()
             session.refresh(product)
 
             return ProductRead(
@@ -57,7 +54,7 @@ class ProductService:
         max_price: float | None
     ) -> list[ProductRead]:
 
-        query = select(Product)
+        query = select(Product).where(Product.is_deleted == False)
 
         if category_id is not None:
             query = query.where(Product.category_id == category_id)
@@ -86,7 +83,7 @@ class ProductService:
     @staticmethod
     def get_product(product_id: int, session: Session) -> ProductRead:
         product = session.get(Product, product_id)
-        if not product:
+        if not product or product.is_deleted:
             raise HTTPException(status_code=404, detail="Product not found")
 
         return ProductRead(
@@ -108,7 +105,7 @@ class ProductService:
 
         with UnitOfWork(session) as uow:
             product = session.get(Product, product_id)
-            if not product:
+            if not product or product.is_deleted:
                 raise HTTPException(status_code=404, detail="Product not found")
 
             product.name = data.name
@@ -117,7 +114,6 @@ class ProductService:
             product.image_url = data.image_url
             product.description = data.description
 
-            # Actualizar ingredientes
             product.ingredients = []
             for ing_id in data.ingredients:
                 ing = session.get(Ingredient, ing_id)
@@ -126,7 +122,7 @@ class ProductService:
                 product.ingredients.append(ing)
 
             session.add(product)
-            uow.commit()
+            session.flush()
             session.refresh(product)
 
             return ProductRead(
@@ -143,9 +139,7 @@ class ProductService:
     def delete_product(product_id: int, session: Session) -> None:
         with UnitOfWork(session) as uow:
             product = session.get(Product, product_id)
-            if not product:
+            if not product or product.is_deleted:
                 raise HTTPException(status_code=404, detail="Product not found")
 
-            product.ingredients = []  # Clear link table relationships
-            session.delete(product)
-            uow.commit()
+            product.is_deleted = True

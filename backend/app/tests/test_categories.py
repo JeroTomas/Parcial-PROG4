@@ -13,11 +13,9 @@ def test_list_categories(client):
 
 
 def test_update_category(client):
-    # Crear categoría
     create = client.post("/categories/", json={"name": "Snacks"})
     category_id = create.json()["id"]
 
-    # Actualizar
     update = client.put(f"/categories/{category_id}", json={"name": "Snacks Dulces"})
     assert update.status_code == 200
     assert update.json()["name"] == "Snacks Dulces"

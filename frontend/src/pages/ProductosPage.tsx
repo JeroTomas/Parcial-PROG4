@@ -12,7 +12,6 @@ export default function ProductosPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Form State
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -134,7 +133,6 @@ export default function ProductosPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Header Section */}
       <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <h3 className="text-[#1d4ed8] font-bold tracking-widest text-sm uppercase mb-2">
@@ -153,7 +151,6 @@ export default function ProductosPage() {
         </button>
       </div>
 
-      {/* Formulario Interactivo */}
       {showForm && (
         <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm mb-8 animate-fade-in max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-gray-900">{editingId ? "Editar Producto" : "Crear Nuevo Producto"}</h2>
@@ -255,7 +252,6 @@ export default function ProductosPage() {
         </div>
       )}
 
-      {/* Grid of Products */}
       {!showForm && (
         <>
           {loading ? (
@@ -273,7 +269,6 @@ export default function ProductosPage() {
                   key={producto.id} 
                   className="bg-white border border-gray-200 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
                 >
-                  {/* Image Section */}
                   <div className="h-48 w-full bg-white border-b border-gray-100 flex-shrink-0 relative overflow-hidden">
                     {producto.image_url ? (
                       <img 
@@ -281,7 +276,6 @@ export default function ProductosPage() {
                         alt={producto.name} 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => {
-                          // Si la imagen falla en cargar, la ocultamos y mostramos el fondo blanco
                           (e.target as HTMLImageElement).style.display = 'none';
                         }}
                       />
@@ -309,7 +303,6 @@ export default function ProductosPage() {
                     </div>
                   </div>
 
-                  {/* Content Section */}
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="mb-3">
                       <span className="text-xs font-bold text-[#0ea5e9] uppercase tracking-wider bg-[#0ea5e9]/10 px-2 py-1 rounded-md">
@@ -327,7 +320,6 @@ export default function ProductosPage() {
                       </p>
                     )}
 
-                    {/* Ingredients Section */}
                     <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-end">
                       <div>
                         <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">

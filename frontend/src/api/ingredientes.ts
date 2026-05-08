@@ -1,21 +1,24 @@
-import { apiClient } from "./apiClient";
+import { fetchApi } from "./apiClient";
 import type { Ingrediente } from "../types";
 
 export const getIngredientes = async (): Promise<Ingrediente[]> => {
-  const response = await apiClient.get<Ingrediente[]>("/ingredients/");
-  return response.data;
+  return fetchApi<Ingrediente[]>("/ingredients/");
 };
 
 export const createIngrediente = async (name: string, description?: string): Promise<Ingrediente> => {
-  const response = await apiClient.post<Ingrediente>("/ingredients/", { name, description });
-  return response.data;
+  return fetchApi<Ingrediente>("/ingredients/", {
+    method: "POST",
+    body: JSON.stringify({ name, description }),
+  });
 };
 
 export const updateIngrediente = async (id: number, name: string, description?: string): Promise<Ingrediente> => {
-  const response = await apiClient.put<Ingrediente>(`/ingredients/${id}`, { name, description });
-  return response.data;
+  return fetchApi<Ingrediente>(`/ingredients/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ name, description }),
+  });
 };
 
 export const deleteIngrediente = async (id: number): Promise<void> => {
-  await apiClient.delete(`/ingredients/${id}`);
+  return fetchApi<void>(`/ingredients/${id}`, { method: "DELETE" });
 };

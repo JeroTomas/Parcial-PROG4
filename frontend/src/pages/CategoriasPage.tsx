@@ -78,7 +78,6 @@ export default function CategoriasPage() {
     return categorias.find(c => c.id === parent_id)?.name ?? null;
   };
 
-  // When editing, exclude the current category from the parent options to avoid self-reference
   const parentOptions = categorias.filter(c => c.id !== editingId);
 
   const filteredCategorias = categorias.filter(cat =>
@@ -87,7 +86,6 @@ export default function CategoriasPage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      {/* Header Section */}
       <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <h3 className="text-[#1d4ed8] font-bold tracking-widest text-sm uppercase mb-2">
@@ -160,7 +158,6 @@ export default function CategoriasPage() {
         </div>
       )}
 
-      {/* Grid of Categories */}
       {!showForm && (
         <>
           {loading ? (

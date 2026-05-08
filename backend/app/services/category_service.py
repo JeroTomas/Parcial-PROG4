@@ -7,29 +7,27 @@ from app.uow import UnitOfWork
 
 class CategoryService:
 
-    # -----------------------------
-    # CREATE
-    # -----------------------------
     @staticmethod
     def create_category(data: CategoryCreate, session: Session) -> Category:
         with UnitOfWork(session) as uow:
             category = Category(name=data.name, parent_id=data.parent_id)
             session.add(category)
 
-            uow.commit()
+            session.flush()
             session.refresh(category)
             return category
 
-    # -----------------------------
-    # LIST
-    # -----------------------------
     @staticmethod
     def list_categories(session: Session) -> list[Category]:
-        return session.exec(select(Category)).all()
+        return session.exec(select(Category).where(Category.is_deleted == False)).all()
 
-    # -----------------------------
-    # UPDATE
-    # -----------------------------
+    @staticmethod
+    def get_category(category_id: int, session: Session) -> Category | None:
+        category = session.get(Category, category_id)
+        if category and category.is_deleted:
+            return None
+        return category
+
     @staticmethod
     def update_category(
         category_id: int,
@@ -39,33 +37,27 @@ class CategoryService:
 
         with UnitOfWork(session) as uow:
             category = session.get(Category, category_id)
-            if not category:
+            if not category or category.is_deleted:
                 raise HTTPException(status_code=404, detail="Category not found")
 
             category.name = data.name
             category.parent_id = data.parent_id
 
             session.add(category)
-            uow.commit()
+            session.flush()
             session.refresh(category)
             return category
 
-    # -----------------------------
-    # DELETE
-    # -----------------------------
     @staticmethod
     def delete_category(category_id: int, session: Session) -> None:
         from app.models.product import Product
         with UnitOfWork(session) as uow:
             category = session.get(Category, category_id)
-            if not category:
+            if not category or category.is_deleted:
                 raise HTTPException(status_code=404, detail="Category not found")
 
-            # Cascade delete products
             products = session.exec(select(Product).where(Product.category_id == category_id)).all()
             for prod in products:
-                prod.ingredients = []  # Clear relationships in link table
-                session.delete(prod)
+                prod.is_deleted = True
 
-            session.delete(category)
-            uow.commit()
+            category.is_deleted = True

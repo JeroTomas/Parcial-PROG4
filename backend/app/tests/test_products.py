@@ -1,11 +1,11 @@
 def test_create_product(client):
-    # Crear categoría primero
     category = client.post("/categories/", json={"name": "Lácteos"}).json()
 
     product_data = {
         "name": "Leche",
         "price": 1200,
-        "category_id": category["id"]
+        "category_id": category["id"],
+        "ingredients": []
     }
 
     response = client.post("/products/", json=product_data)
@@ -25,7 +25,8 @@ def test_update_product(client):
     create = client.post("/products/", json={
         "name": "Pan",
         "price": 800,
-        "category_id": category["id"]
+        "category_id": category["id"],
+        "ingredients": []
     }).json()
 
     product_id = create["id"]
@@ -33,7 +34,8 @@ def test_update_product(client):
     update = client.put(f"/products/{product_id}", json={
         "name": "Pan Integral",
         "price": 900,
-        "category_id": category["id"]
+        "category_id": category["id"],
+        "ingredients": []
     })
 
     assert update.status_code == 200
@@ -46,7 +48,8 @@ def test_delete_product(client):
     create = client.post("/products/", json={
         "name": "Producto X",
         "price": 500,
-        "category_id": category["id"]
+        "category_id": category["id"],
+        "ingredients": []
     }).json()
 
     product_id = create["id"]

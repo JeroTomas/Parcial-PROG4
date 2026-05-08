@@ -9,6 +9,7 @@ class Product(SQLModel, table=True):
     image_url: Optional[str] = None
     description: Optional[str] = None
     category_id: Optional[int] = Field(default=None, foreign_key="category.id")
+    is_deleted: bool = Field(default=False)
 
     ingredients: List["Ingredient"] = Relationship(
         back_populates="products",

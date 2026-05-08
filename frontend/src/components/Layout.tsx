@@ -12,7 +12,6 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* Header */}
       <header className="bg-white border-b border-gray-100">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -30,7 +29,6 @@ export default function Layout() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
         <Outlet />
       </main>

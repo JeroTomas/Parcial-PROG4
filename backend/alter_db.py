@@ -21,6 +21,10 @@ with engine.connect() as conn:
 
         conn.execute(text("ALTER TABLE category ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES category(id);"))
         
+        conn.execute(text("ALTER TABLE category ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE;"))
+        conn.execute(text("ALTER TABLE product ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE;"))
+        conn.execute(text("ALTER TABLE ingredient ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE;"))
+
         conn.commit()
         print("Table altered successfully")
     except Exception as e:

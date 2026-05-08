@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from app.database import get_session
 from app.schemas.category_schema import CategoryCreate, CategoryRead
@@ -7,9 +7,6 @@ from app.services.category_service import CategoryService
 router = APIRouter(prefix="/categories", tags=["Categories"])
 
 
-# -----------------------------
-# CREATE
-# -----------------------------
 @router.post("/", response_model=CategoryRead)
 def create_category(
     category: CategoryCreate,
@@ -18,17 +15,19 @@ def create_category(
     return CategoryService.create_category(category, session)
 
 
-# -----------------------------
-# LIST
-# -----------------------------
 @router.get("/", response_model=list[CategoryRead])
 def list_categories(session: Session = Depends(get_session)):
     return CategoryService.list_categories(session)
 
 
-# -----------------------------
-# UPDATE
-# -----------------------------
+@router.get("/{category_id}", response_model=CategoryRead)
+def get_category(category_id: int, session: Session = Depends(get_session)):
+    category = CategoryService.get_category(category_id, session)
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return category
+
+
 @router.put("/{category_id}", response_model=CategoryRead)
 def update_category(
     category_id: int,
@@ -42,9 +41,6 @@ def update_category(
     )
 
 
-# -----------------------------
-# DELETE
-# -----------------------------
 @router.delete("/{category_id}")
 def delete_category(category_id: int, session: Session = Depends(get_session)):
     CategoryService.delete_category(category_id, session)
