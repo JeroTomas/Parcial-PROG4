@@ -1,6 +1,6 @@
 def test_invalid_min_price(client):
     response = client.get("/products/?min_price=-10")
-    assert response.status_code == 422  # Error de validación
+    assert response.status_code == 422
 
 
 def test_invalid_max_price(client):

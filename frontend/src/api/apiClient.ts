@@ -13,7 +13,6 @@ export const fetchApi = async <T>(endpoint: string, options: RequestInit = {}): 
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  // DELETE requests might not return JSON content
   if (options.method === "DELETE" && response.status === 204) {
     return undefined as T;
   }
